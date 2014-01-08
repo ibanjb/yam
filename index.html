@@ -3,31 +3,34 @@
   <head>
     <meta charset='utf-8'>
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Chivo:900' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen" />
     <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen" />
     <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print" />
-
     <!--[if lt IE 9]>
     <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
-
     <title>Yam by yammer</title>
   </head>
 
   <body>
-    <header>
+    <div id="container">
       <div class="inner">
-        <h1>Yam</h1>
-        <h2>The official Yammer Ruby gem</h2>
-        <a href="https://github.com/yammer/yam" class="button"><small>View project on</small>GitHub</a>
-      </div>
-    </header>
 
-    <div id="content-wrapper">
-      <div class="inner clearfix">
-        <section id="main-content">
+        <header>
+          <h1>Yam</h1>
+          <h2>The official Yammer Ruby gem</h2>
+        </header>
+
+        <section id="downloads" class="clearfix">
+          <a href="https://github.com/yammer/yam/zipball/master" id="download-zip" class="button"><span>Download .zip</span></a>
+          <a href="https://github.com/yammer/yam/tarball/master" id="download-tar-gz" class="button"><span>Download .tar.gz</span></a>
+          <a href="https://github.com/yammer/yam" id="view-on-github" class="button"><span>View on GitHub</span></a>
+        </section>
+
+        <hr>
+
+        <section id="main_content">
           <h1>
 <a name="yam" class="anchor" href="#yam"><span class="octicon octicon-link"></span></a>Yam</h1>
 
@@ -36,7 +39,9 @@
 <a href="https://coveralls.io/r/yammer/yam"><img src="https://coveralls.io/repos/yammer/yam/badge.png" alt="Coverage Status"></a>
 <a href="https://codeclimate.com/github/yammer/yam"><img src="https://codeclimate.com/github/yammer/yam.png" alt="Code Climate"></a></p>
 
-<p>A Yammer Ruby gem</p>
+
+
+<p>The Yammer Ruby gem</p>
 
 <h2>
 <a name="documentation" class="anchor" href="#documentation"><span class="octicon octicon-link"></span></a>Documentation</h2>
@@ -77,11 +82,27 @@
 <a name="obtaining-an-access-token" class="anchor" href="#obtaining-an-access-token"><span class="octicon octicon-link"></span></a>Obtaining an access token</h3>
 
 <ol>
-<li><p>Construct the following URL using the client_id you received <code>https://www.yammer.com/dialog/oauth?client_id=[:client_id]</code></p></li>
+<li>Construct the following GET request using the client_id you received ``</li>
+</ol><div class="highlight highlight-ruby"><pre>  <span class="no">GET</span> <span class="ss">https</span><span class="p">:</span><span class="sr">//</span><span class="n">www</span><span class="o">.</span><span class="n">yammer</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">dialog</span><span class="o">/</span><span class="n">oauth?client_id</span><span class="o">=[</span><span class="ss">:client_id</span><span class="o">]&amp;</span><span class="n">response_type</span><span class="o">=</span><span class="n">code</span>
+</pre></div>
+
+<ol>
 <li><p>Have your users follow the URL you constructed above to allow your application to access their data </p></li>
 <li><p>After allowing access, your users will be redirected to your callback URL <code>http://[:redirect_uri]?code=[:code]</code></p></li>
-<li><p>Exchange the code for an access token by making an HTTP GET request to <code>https://www.yammer.com/oauth2/access_token.json?client_id=[:client_id]&amp;client_secret=[:client_secret]&amp;code=[:code]</code></p></li>
-<li><p>The authorization server will respond with an access token</p></li>
+<li><p>Exchange the code for an access token by making a POST request to Yammer</p></li>
+</ol><div class="highlight highlight-ruby"><pre>  <span class="no">POST</span> <span class="sr">/oauth2/</span><span class="n">access_token</span><span class="o">.</span><span class="n">json</span> <span class="no">HTTP</span><span class="o">/</span><span class="mi">1</span><span class="o">.</span><span class="mi">1</span>
+  <span class="ss">Host</span><span class="p">:</span> <span class="n">www</span><span class="o">.</span><span class="n">yammer</span><span class="o">.</span><span class="n">com</span>
+  <span class="no">Content</span><span class="o">-</span><span class="ss">Type</span><span class="p">:</span> <span class="n">application</span><span class="o">/</span><span class="n">x</span><span class="o">-</span><span class="n">www</span><span class="o">-</span><span class="n">form</span><span class="o">-</span><span class="n">urlencoded</span>
+
+    <span class="n">client_id</span><span class="o">=[</span><span class="ss">:client_id</span><span class="o">]</span>
+    <span class="n">client_secret</span><span class="o">=[</span><span class="ss">:client_secret</span><span class="o">]</span>
+    <span class="n">code</span><span class="o">=[</span><span class="ss">:code</span><span class="o">]</span>
+    <span class="n">redirect_uri</span><span class="o">=</span><span class="ss">https</span><span class="p">:</span><span class="sr">//ex</span><span class="n">ample</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">oauth2</span><span class="o">/</span><span class="n">callback</span>
+    <span class="n">grant_type</span><span class="o">=</span><span class="n">authorization_code</span>
+</pre></div>
+
+<ol>
+<li>The authorization server will respond with an access token</li>
 </ol><div class="highlight highlight-ruby"><pre><span class="s2">"access_token"</span><span class="p">:</span> <span class="p">{</span>
   <span class="o">.</span><span class="n">.</span><span class="o">.</span>
   <span class="s2">"token"</span><span class="p">:</span> <span class="s2">"abcxyz12345"</span><span class="p">,</span>
@@ -90,7 +111,55 @@
 </pre></div>
 
 <h3>
-<a name="configuring-yammer-client" class="anchor" href="#configuring-yammer-client"><span class="octicon octicon-link"></span></a>Configuring yammer-client</h3>
+<a name="using-bundled-yammer-oauth2-client" class="anchor" href="#using-bundled-yammer-oauth2-client"><span class="octicon octicon-link"></span></a>Using bundled Yammer OAuth2 Client</h3>
+
+<p>This gem comes bundled with an OAuth2 wrapper that makes provides convenience methods for getting through the OAuth2 flow</p>
+
+<div class="highlight highlight-ruby"><pre>
+<span class="nb">require</span> <span class="s1">'yammer-oauth2/client'</span>
+
+<span class="n">yammer_client</span> <span class="o">=</span> <span class="no">Yammmer</span><span class="o">::</span><span class="no">OAuth2Client</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s1">'PRbTcg9qjgKsp4jjpm1pw'</span><span class="p">,</span> <span class="s1">'Xn7kp7Ly0TCY4GtZWkmSsqGEPg10DmMADyjWkf2U'</span><span class="p">)</span>
+
+</pre></div>
+
+<h4>
+<a name="authorization-grants" class="anchor" href="#authorization-grants"><span class="octicon octicon-link"></span></a>Authorization Grants</h4>
+
+<p>The client wraps around the creation of any given grant and passing in the parameters defined in the configuration
+file. The supported grants include Authorization Code and Implicit. They are available via the <code>authorization_code</code> and <code>implicit</code> methods on a client object.</p>
+
+<h4>
+<a name="authorization-code-grant-server-side-authorization" class="anchor" href="#authorization-code-grant-server-side-authorization"><span class="octicon octicon-link"></span></a>Authorization Code grant (Server-side authorization)</h4>
+
+<div class="highlight highlight-ruby"><pre>
+<span class="c1"># generate authorization url</span>
+<span class="n">auth_url</span> <span class="o">=</span> <span class="n">yammer_client</span><span class="o">.</span><span class="n">webserver_authorization_url</span>
+<span class="c1"># =&gt; https://www.yammer.com/dialog/oauth/authorize?client_id=PRbTcg9qjgKsp4jjpm1pw&amp;response_type=code</span>
+
+<span class="c1"># exchange authorization code for access token. we will get back a Net::HTTPResponse</span>
+<span class="n">response</span> <span class="o">=</span> <span class="n">yammer_client</span><span class="o">.</span><span class="n">access_token_from_authorization_code</span><span class="p">(</span><span class="s1">'11a0b0b64db56c30e2ef'</span><span class="p">,</span> <span class="p">{</span> <span class="ss">:redirect_uri</span> <span class="o">=&gt;</span> <span class="s1">'https://localhost/callback'</span><span class="p">})</span>
+
+<span class="n">response</span><span class="o">.</span><span class="n">inspect</span> 
+<span class="c1"># =&gt; #&lt;Net::HTTPOK:0x007ff8bc7c1200&gt;</span>
+
+<span class="n">response</span><span class="o">.</span><span class="n">body</span>
+<span class="c1"># =&gt; {</span>
+<span class="c1">#      "access_token" : {</span>
+<span class="c1">#                          "token": "e409f4272fe539166a77c42479de030e7660812a",</span>
+<span class="c1">#                          "token_type" : "bearer"</span>
+<span class="c1">#                       }</span>
+<span class="c1">#    }"</span>
+</pre></div>
+
+<h4>
+<a name="implicit-grant-client-side-authorization" class="anchor" href="#implicit-grant-client-side-authorization"><span class="octicon octicon-link"></span></a>Implicit Grant (Client-side authorization)</h4>
+
+<div class="highlight highlight-ruby"><pre><span class="n">authorization_url</span> <span class="o">=</span> <span class="n">yammer_client</span><span class="o">.</span><span class="n">clientside_authorization_url</span><span class="p">(</span><span class="ss">:redirect_uri</span> <span class="o">=&gt;</span> <span class="s1">'http://localhost/oauth2/callback'</span><span class="p">)</span>
+<span class="c1"># =&gt; "https://www.yammer.com/dialog/oauth/?client_id=PRbTcg9qjgKsp4jjpm1pw&amp;redirect_uri=http%3A%2F%2Flocalhost%2Foauth%2Fcallback&amp;response_type=token"</span>
+</pre></div>
+
+<h2>
+<a name="configuring-yammer-client" class="anchor" href="#configuring-yammer-client"><span class="octicon octicon-link"></span></a>Configuring yammer-client</h2>
 
 <p>To view the current state of the client use the <code>options</code> method</p>
 
@@ -154,13 +223,13 @@ If your application uses a signle pair of client_id and client_secret credential
 <ul>
 <li>Create an instance of the Yammer client</li>
 </ul><div class="highlight highlight-ruby"><pre><span class="c1"># create a client instance using the access token: HqsKG3ka9Uls2DxahNi78A</span>
-<span class="n">yamr</span> <span class="o">=</span> <span class="ss">Yammer</span><span class="p">:</span><span class="ss">:Client</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="ss">:access_token</span>  <span class="o">=&gt;</span> <span class="s1">'HqsKG3ka9Uls2DxahNi78A'</span><span class="p">)</span>
+<span class="n">yamr</span> <span class="o">=</span> <span class="no">Yammer</span><span class="o">::</span><span class="no">Client</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="ss">:access_token</span>  <span class="o">=&gt;</span> <span class="s1">'HqsKG3ka9Uls2DxahNi78A'</span><span class="p">)</span>
 
 
 <span class="c1"># create multiple clients, each using a different access token</span>
-<span class="n">client1</span> <span class="o">=</span> <span class="ss">Yammer</span><span class="p">:</span><span class="ss">:Client</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="ss">:access_token</span>  <span class="o">=&gt;</span> <span class="s1">'fG4mhFDf2GUUptztU0Qo9g'</span><span class="p">)</span>
+<span class="n">client1</span> <span class="o">=</span> <span class="no">Yammer</span><span class="o">::</span><span class="no">Client</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="ss">:access_token</span>  <span class="o">=&gt;</span> <span class="s1">'fG4mhFDf2GUUptztU0Qo9g'</span><span class="p">)</span>
 
-<span class="n">client2</span> <span class="o">=</span> <span class="ss">Yammer</span><span class="p">:</span><span class="ss">:Client</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="ss">:access_token</span>  <span class="o">=&gt;</span> <span class="s1">'ruZy4vFYyTWqnx7adO9ow'</span><span class="p">)</span>
+<span class="n">client2</span> <span class="o">=</span> <span class="no">Yammer</span><span class="o">::</span><span class="no">Client</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="ss">:access_token</span>  <span class="o">=&gt;</span> <span class="s1">'ruZy4vFYyTWqnx7adO9ow'</span><span class="p">)</span>
 
 </pre></div>
 
@@ -278,8 +347,8 @@ If your application uses a signle pair of client_id and client_secret credential
 <ul>
 <li><em>get the current user</em></li>
 </ul>
-<div class="highlight highlight-ruby"><pre><span class="n">u</span> <span class="o">=</span> <span class="ss">Yammer</span><span class="p">:</span><span class="ss">:User</span><span class="o">.</span><span class="n">current</span>
-<span class="c1">#&gt; &lt;Yammer::User:0x007f9f4b0c39c8&gt;</span>
+<div class="highlight highlight-ruby"><pre><span class="n">u</span> <span class="o">=</span> <span class="no">Yammer</span><span class="o">::</span><span class="no">Resources</span><span class="o">::</span><span class="no">User</span><span class="o">.</span><span class="n">current</span>
+<span class="c1">#&gt; &lt;Yammer::Resources::User:0x007f9f4b0c39c8&gt;</span>
 
 <span class="n">u</span><span class="o">.</span><span class="n">full_name</span>
 <span class="c1">#&gt; 'Kevin Mutyaba'</span>
@@ -293,7 +362,7 @@ If your application uses a signle pair of client_id and client_secret credential
 <ul>
 <li><em>fetch a thread with a given id</em></li>
 </ul>
-<div class="highlight highlight-ruby"><pre><span class="n">t</span> <span class="o">=</span> <span class="ss">Yammer</span><span class="p">:</span><span class="ss">:Thread</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<div class="highlight highlight-ruby"><pre><span class="n">t</span> <span class="o">=</span> <span class="no">Yammer</span><span class="o">::</span><span class="no">Resources</span><span class="o">::</span><span class="no">Thread</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
 </pre></div>
 
 <p>View the participants in the thread</p>
@@ -305,19 +374,19 @@ If your application uses a signle pair of client_id and client_secret credential
 <p>View the participants in the thread as user object models</p>
 
 <div class="highlight highlight-ruby"><pre><span class="n">peepl</span> <span class="o">=</span> <span class="n">t</span><span class="o">.</span><span class="n">people</span>
-<span class="c1">#&gt; [#&lt;Yammer::User:0x007f9f4c086630 @modified_attributes={}, @attrs={}, @new_record=false, @id=18&gt;, #&lt;Yammer::User:0x007f9f4c086568 @modified_attributes={}, @attrs={}, @new_record=false, @id=64&gt;] </span>
+<span class="c1">#&gt; [#&lt;Yammer::Resources::User:0x007f9f4c086630 @modified_attributes={}, @attrs={}, @new_record=false, @id=18&gt;, #&lt;Yammer::Resources::User:0x007f9f4c086568 @modified_attributes={}, @attrs={}, @new_record=false, @id=64&gt;] </span>
 </pre></div>
 
 <p>Object models are lazyly loaded. Calling an accessor on a model will hydrate it</p>
 
 <div class="highlight highlight-ruby"><pre><span class="n">peepl</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span>
-<span class="c1">#&gt; #&lt;Yammer::User:0x007f9f4c086568 @modified_attributes={}, @attrs={}, @new_record=false, @id=18&gt; </span>
+<span class="c1">#&gt; #&lt;Yammer::Resources::User:0x007f9f4c086568 @modified_attributes={}, @attrs={}, @new_record=false, @id=18&gt; </span>
 
 <span class="n">peepl</span><span class="o">[</span><span class="mi">0</span><span class="o">].</span><span class="n">permalink</span>
 <span class="c1">#&gt; 'thekev'</span>
 
 <span class="n">peepl</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span>
-<span class="c1">#=&gt; #&lt;Yammer::User:0x007f9f4c086568 @modified_attributes={}, @attrs={:last_name=&gt;"Mutyaba", :network_id=&gt;1, :first_name=&gt;"Kevin", :id =&gt; 18,  :permalink=&gt;"thekev" }, @network_id=1, @first_name="Kev", @full_name="Tiaba", @permalink="thekev", @id=18 &gt; </span>
+<span class="c1">#=&gt; #&lt;Yammer::Resources::User:0x007f9f4c086568 @modified_attributes={}, @attrs={:last_name=&gt;"Mutyaba", :network_id=&gt;1, :first_name=&gt;"Kevin", :id =&gt; 18,  :permalink=&gt;"thekev" }, @network_id=1, @first_name="Kev", @full_name="Tiaba", @permalink="thekev", @id=18 &gt; </span>
 </pre></div>
 </li>
 </ul><h2>
@@ -327,7 +396,6 @@ If your application uses a signle pair of client_id and client_secret credential
 version:</p>
 
 <ul>
-<li>Ruby 1.8.7</li>
 <li>Ruby 1.9.2</li>
 <li>Ruby 1.9.3</li>
 <li>Ruby 2.0.0</li>
@@ -342,23 +410,13 @@ above.</p>
 See <a href="https://github.com/tiabas/yammer-client/blob/master/LICENSE.md">LICENSE</a> for details.</p>
         </section>
 
-        <aside id="sidebar">
-          <a href="https://github.com/yammer/yam/zipball/master" class="button">
-            <small>Download</small>
-            .zip file
-          </a>
-          <a href="https://github.com/yammer/yam/tarball/master" class="button">
-            <small>Download</small>
-            .tar.gz file
-          </a>
+        <footer>
+          Yam is maintained by <a href="https://github.com/yammer">yammer</a><br>
+          This page was generated by <a href="http://pages.github.com">GitHub Pages</a>. Tactile theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.
+        </footer>
 
-          <p class="repo-owner"><a href="https://github.com/yammer/yam"></a> is maintained by <a href="https://github.com/yammer">yammer</a>.</p>
-
-          <p>This page was generated by <a href="pages.github.com">GitHub Pages</a> using the Architect theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.</p>
-        </aside>
+        
       </div>
     </div>
-
-  
   </body>
 </html>
